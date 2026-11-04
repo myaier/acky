@@ -22,8 +22,8 @@
 
 ## 安装
 
-1. 在 [Releases](https://github.com/myaier/acky/releases/latest) 下载对应芯片的安装包：Apple Silicon 用 `acky-<版本>-arm64.dmg`，Intel 用 `acky-<版本>-x64.dmg`。打开后把 acky 拖进「应用程序」。
-2. 这个版本还没有经过 Apple 公证，第一次打开时 macOS 会拦下：到「系统设置 → 隐私与安全性」点「仍要打开」，或者在终端运行 `xattr -dr com.apple.quarantine /Applications/acky.app`。
+1. 在 [Releases](https://github.com/myaier/acky/releases/latest) 下载对应芯片的安装包：Apple Silicon 用 `acky-<版本>-arm64.dmg`，Intel 用 `acky-<版本>-x64.dmg`。如果提供 `universal` 通用包，两种芯片都能使用。打开后把 acky 拖进「应用程序」。
+2. 这个版本还没有经过 Apple 公证，第一次打开时 macOS 会拦下：先在 Finder 中右键 acky →「打开」；若仍被拦下，到「系统设置 → 隐私与安全性」点「仍要打开」，或者在终端运行 `xattr -dr com.apple.quarantine /Applications/acky.app`。
 
 ## 更新
 
