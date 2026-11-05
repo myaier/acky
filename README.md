@@ -22,12 +22,12 @@
 
 ## 安装
 
-1. 在 [Releases](https://github.com/myaier/acky/releases/latest) 下载对应芯片的安装包：Apple Silicon 用 `acky-<版本>-arm64.dmg`，Intel 用 `acky-<版本>-x64.dmg`。如果提供 `universal` 通用包，两种芯片都能使用。打开后把 acky 拖进「应用程序」。
+1. 在 [Releases](https://github.com/myaier/acky/releases) 下载对应芯片的安装包：Apple Silicon 用 `acky-<版本>-arm64.dmg`，Intel 用 `acky-<版本>-x64.dmg`。如果提供 `universal` 通用包，两种芯片都能使用。打开后把 acky 拖进「应用程序」。
 2. 这个版本还没有经过 Apple 公证，第一次打开时 macOS 会拦下：先在 Finder 中右键 acky →「打开」；若仍被拦下，到「系统设置 → 隐私与安全性」点「仍要打开」，或者在终端运行 `xattr -dr com.apple.quarantine /Applications/acky.app`。
 
 ## 更新
 
-acky 启动后和之后每 4 小时检查一次这里的最新版本，有新版本就在后台下载并校验；左下角出现「新版本已就绪」，点一下 acky 就重启成新版本。也可以在「设置」里手动检查。
+0.4.0 云端版作为 Latest release 分发，请从 Releases 下载并手动安装。此次不发布自动更新清单，旧本机版不会通过这次发布自动变成云端版；不要替换旧版的 `latest.json` 和 code/ui/deps 更新包。
 
 ## 数据在哪
 
