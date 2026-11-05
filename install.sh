@@ -2,7 +2,7 @@
 # First installation only. Published copies pin this URL to one immutable release.
 set -euo pipefail
 main() {
-  local release_base='https://github.com/myaier/acky/releases/download/v0.4.361'
+  local release_base='https://github.com/myaier/acky/releases/download/v0.4.366'
   local machine archive
   # Bash 5 unwinds function locals before EXIT after errexit; rollback state must outlive main.
   temporary=''; destination=''; stage=''; backup=''; app=''; installed=0
