@@ -22,17 +22,41 @@
 
 ## 安装
 
-1. 在 [Releases](https://github.com/myaier/acky/releases) 下载对应芯片的安装包：Apple Silicon 用 `acky-<版本>-arm64.dmg`，Intel 用 `acky-<版本>-x64.dmg`。如果提供 `universal` 通用包，两种芯片都能使用。打开后把 acky 拖进「应用程序」。
-2. 这个版本还没有经过 Apple 公证，第一次打开时 macOS 会拦下：先在 Finder 中右键 acky →「打开」；若仍被拦下，到「系统设置 → 隐私与安全性」点「仍要打开」，或者在终端运行 `xattr -dr com.apple.quarantine /Applications/acky.app`。
+### 一行命令（推荐）
+
+退出已打开的 acky，在「终端」粘贴：
+
+```sh
+curl -fsSL https://github.com/myaier/acky/releases/latest/download/install.sh | bash
+```
+
+脚本会按芯片下载最新的完整 ZIP，核对 SHA-256 后安装到 `/Applications/acky.app`，替换旧副本、清除该应用的 quarantine 标记并打开。应用程序目录需要管理员权限时会提示输入密码。校验失败不会替换旧应用，安装失败会恢复旧副本。发布的脚本锁定同一个版本的 ZIP 与校验文件。
+
+每个 release 都提供固定名称的 [Apple Silicon ZIP](https://github.com/myaier/acky/releases/latest/download/acky-mac-arm64.zip) 和 [通用 ZIP](https://github.com/myaier/acky/releases/latest/download/acky-mac-universal.zip)，供首次安装使用。
+
+### DMG 安装
+
+在 [Releases](https://github.com/myaier/acky/releases) 找到提供 DMG 的版本：Apple Silicon 用 `acky-<版本>-arm64.dmg`，Intel 用 `acky-<版本>-universal.dmg`。打开后把 acky 拖进「应用程序」，再打开 acky。
+
+目前尚未取得 Apple Developer ID 签名与公证。若 macOS 显示「Apple 无法验证」，关闭提示，前往「系统设置 → 隐私与安全性」，找到 acky，点「仍要打开」并确认。参见 [Apple 官方说明](https://support.apple.com/zh-cn/102445)。不依赖右键「打开」绕过。
+
+也可以在确认下载来自本仓库后，在终端执行：
+
+```sh
+xattr -dr com.apple.quarantine /Applications/acky.app
+open /Applications/acky.app
+```
 
 ## 更新
 
-0.4.0 云端版作为 Latest release 分发，请从 Releases 下载并手动安装。此次不发布自动更新清单，旧本机版不会通过这次发布自动变成云端版；不要替换旧版的 `latest.json` 和 code/ui/deps 更新包。
+应用自动检查新版本，下载好后点「重启更新」。日常更新只下载应用代码和界面；Electron 等基础内容没变就不会重复下载。新版本启动失败时会恢复上一版。
+
+已使用旧整包更新机制的 0.4 版本会先进行一次完整下载，之后转为小包更新。DMG 和完整 ZIP 只需首次安装或这次过渡时使用，不必每版重新安装。
 
 ## 数据在哪
 
 - 项目和会话记录保存在云端，桌面端通过本机代理访问。
-- 设备令牌由系统钥匙串保护的加密密钥加密保存；在个人设置中可吊销。
+- 设备和节点凭据暂用应用数据目录中的本地随机密钥加密保存；同一系统用户下的其他程序也能读取密钥。旧钥匙串凭据只做一次迁移，在个人设置中可吊销设备。
 - Worker 工作目录在运行它的节点上；第三轮不迁移前两轮的本机数据。
 - 日志在 `~/Library/Logs/acky`。
 
