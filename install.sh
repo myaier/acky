@@ -2,7 +2,8 @@
 # First installation only. Published copies pin this URL to one immutable release.
 set -euo pipefail
 main() {
-  local release_base='https://github.com/myaier/acky/releases/download/v0.4.366'
+  local cdn_origin=''
+  local release_base='https://github.com/myaier/acky/releases/download/v0.4.377'
   local machine archive
   # Bash 5 unwinds function locals before EXIT after errexit; rollback state must outlive main.
   temporary=''; destination=''; stage=''; backup=''; app=''; installed=0
@@ -37,14 +38,22 @@ main() {
   trap 'exit 143' TERM
   echo "下载 ${archive}，并核对 SHA-256…"
   local expected actual
-  curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' \
-    --output "${temporary}/checksum" "${release_base}/${archive}.sha256"
-  expected=$(awk 'NR == 1 {print $1}' "${temporary}/checksum")
-  [[ "${expected}" =~ ^[0-9a-f]{64}$ ]] || { echo '发布文件的 SHA-256 格式无效。' >&2; exit 1; }
-  curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' \
-    --output "${temporary}/${archive}" "${release_base}/${archive}"
-  actual=$(shasum -a 256 "${temporary}/${archive}"); actual=${actual%% *}
-  [ "${actual}" = "${expected}" ] || { echo 'SHA-256 校验失败，原应用未更改。' >&2; exit 1; }
+  local source_base version downloaded=0
+  version=latest
+  if [[ "$release_base" =~ /releases/download/(v[0-9]+\.[0-9]+\.[0-9]+)$ ]]; then version="${BASH_REMATCH[1]}"; fi
+  sources=("$release_base")
+  if [ -n "$cdn_origin" ]; then sources=("$cdn_origin/desktop/$version" "$release_base"); fi
+  for source_base in "${sources[@]}"; do
+    if ! curl --fail --silent --show-error --location --connect-timeout 15 --max-time 60 --proto '=https' --proto-redir '=https' \
+      --output "${temporary}/checksum" "${source_base}/${archive}.sha256"; then continue; fi
+    expected=$(awk 'NR == 1 {print $1}' "${temporary}/checksum")
+    [[ "${expected}" =~ ^[0-9a-f]{64}$ ]] || continue
+    if ! curl --fail --silent --show-error --location --connect-timeout 15 --max-time 3600 --proto '=https' --proto-redir '=https' \
+      --output "${temporary}/${archive}" "${source_base}/${archive}"; then continue; fi
+    actual=$(shasum -a 256 "${temporary}/${archive}"); actual=${actual%% *}
+    if [ "${actual}" = "${expected}" ]; then downloaded=1; break; fi
+  done
+  [ "$downloaded" = 1 ] || { echo '下载或 SHA-256 校验失败，原应用未更改。' >&2; exit 1; }
   mkdir -p "${temporary}/unpack"
   ditto -x -k --noqtn --noextattr "${temporary}/${archive}" "${temporary}/unpack"
   [ -f "${temporary}/unpack/acky.app/Contents/Info.plist" ] || { echo '安装包中没有 acky.app。' >&2; exit 1; }
