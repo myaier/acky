@@ -3,7 +3,7 @@
 set -euo pipefail
 main() {
   local cdn_origin=''
-  local release_base='https://github.com/myaier/acky/releases/download/v0.4.377'
+  local release_base='https://github.com/myaier/acky/releases/download/v0.4.390'
   local machine archive
   # Bash 5 unwinds function locals before EXIT after errexit; rollback state must outlive main.
   temporary=''; destination=''; stage=''; backup=''; app=''; installed=0
