@@ -3,7 +3,7 @@
 set -euo pipefail
 main() {
   local cdn_origin='https://cdn.acky.dev'
-  local release_base='https://github.com/myaier/acky/releases/download/v0.5.1601'
+  local release_base='https://github.com/myaier/acky/releases/download/v0.5.1606'
   local machine archive
   # Bash 5 unwinds function locals before EXIT after errexit; rollback state must outlive main.
   temporary=''; destination=''; stage=''; backup=''; app=''; installed=0
@@ -11,7 +11,6 @@ main() {
   machine=$(uname -m)
   case "${machine}" in
     arm64) archive=acky-mac-arm64.zip ;;
-    x86_64) archive=acky-mac-universal.zip ;;
     *) echo "不支持的架构：${machine}" >&2; exit 1 ;;
   esac
   destination=${ACKY_INSTALL_DIR:-/Applications}
