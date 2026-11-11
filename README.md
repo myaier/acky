@@ -16,7 +16,7 @@
 
 ## 系统要求
 
-- macOS 12 或更高，Apple Silicon 或 Intel。
+- macOS 12 或更高，Apple 芯片（不支持 Intel）。
 - 干活的机器上装好并登录 Claude Code（`claude`）或 Codex（`codex`）。
 - 用 Google 账号登录云端；Acky 自己的模型服务由部署统一提供。
 
@@ -30,13 +30,13 @@
 curl -fsSL https://github.com/myaier/acky/releases/latest/download/install.sh | bash
 ```
 
-脚本会按芯片下载最新的完整 ZIP，核对 SHA-256 后安装到 `/Applications/acky.app`，替换旧副本、清除该应用的 quarantine 标记并打开。应用程序目录需要管理员权限时会提示输入密码。校验失败不会替换旧应用，安装失败会恢复旧副本。发布的脚本锁定同一个版本的 ZIP 与校验文件。
+acky 只支持 Apple 芯片的 Mac。脚本会下载最新的完整 ZIP，核对 SHA-256 后安装到 `/Applications/acky.app`，替换旧副本、清除该应用的 quarantine 标记并打开。应用程序目录需要管理员权限时会提示输入密码。校验失败不会替换旧应用，安装失败会恢复旧副本。发布的脚本锁定同一个版本的 ZIP 与校验文件。
 
-每个 release 都提供固定名称的 [Apple Silicon ZIP](https://github.com/myaier/acky/releases/latest/download/acky-mac-arm64.zip) 和 [通用 ZIP](https://github.com/myaier/acky/releases/latest/download/acky-mac-universal.zip)，供首次安装使用。
+每个 release 都提供固定名称的 [Apple Silicon ZIP](https://github.com/myaier/acky/releases/latest/download/acky-mac-arm64.zip)，供首次安装使用。
 
 ### DMG 安装
 
-在 [Releases](https://github.com/myaier/acky/releases) 找到提供 DMG 的版本：Apple Silicon 用 `acky-<版本>-arm64.dmg`，Intel 用 `acky-<版本>-universal.dmg`。打开后把 acky 拖进「应用程序」，再打开 acky。
+在 [Releases](https://github.com/myaier/acky/releases) 找到提供 DMG 的版本：用 `acky-<版本>-arm64.dmg`。打开后把 acky 拖进「应用程序」，再打开 acky。
 
 目前尚未取得 Apple Developer ID 签名与公证。若 macOS 显示「Apple 无法验证」，关闭提示，前往「系统设置 → 隐私与安全性」，找到 acky，点「仍要打开」并确认。参见 [Apple 官方说明](https://support.apple.com/zh-cn/102445)。不依赖右键「打开」绕过。
 
